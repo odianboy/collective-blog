@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание новой публикации</title>
+</head>
+<body>
+    <h2>Создание новой публикации</h2>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ new_post_form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользовталей</title>
+</head>
+<body>
+    <h1>Список всех пользовталей</h1>
+        {% for user in users %}
+            <li>
+                <a href="{% url 'user_card' pk=user.pk%}"> {{ user }}</a>
+                {% if user == request.user %} (Это Вы) {% endif %}
+            </li>
+        {% empty %}
+        <p>Пользователей пока нет.</p>
+        {% endfor  %}
+</body>
+</html>

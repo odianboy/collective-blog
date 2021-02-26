@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный профиль</title>
+</head>
+<body>
+    <h3>Личный профиль</h3>
+    <a href="{% url 'index' %}">Перейти на главную страницу сайта</a><br>
+    <h4>ЙОУ! {{ user.email }}</h4>
+    {% if user.avatar %}
+        <img src="{{MEDIA_URL}}{{user.avatar.url}}" alt="connect" style="max-height:200px">
+    {% endif %}
+    <li>Имя: {{ user.first_name }}</li>
+    <li>Фамилия: {{ user.last_name }}</li>
+    <li>Email: {{ user.email }}</li>
+    <li>Телефон: {{ user.phone }}</li>
+    <li>Skype: {{ user.skype }}</li>
+
+    <h1>Редактировать данные</h1>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Сохранить</button>
+    </form>
+</body>
+</html>

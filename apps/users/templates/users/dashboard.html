@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+</head>
+<body>
+<h3> Добро пожаловать в личный кабинет {{ user.email }}!</h3>
+<a href="{% url 'index' %}">Перейти на главную страницу сайта</a><br>
+<a href="{% url 'profile' %}"> Войти в личный профиль</a><br>
+<a href="{% url 'publications' %}"> Показать личные публикации</a>
+</body>
+</html>

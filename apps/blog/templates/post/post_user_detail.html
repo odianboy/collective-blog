@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Детализация публикации</title>
+</head>
+<body>
+    <h1>{{ publication }}</h1>
+    Категория: {{ publication.category.name }}<br>
+    {% if user == publication.author %}
+    Статус: {{ publication.get_status_display }}<br>
+    {% endif %}
+    Текст публикации: {{ publication.text }}<br>
+    Средняя оценка публикации: {% if rating %} {{ rating }} {% else %} Оценок еще нет {% endif %}<br>
+    <a href="{% url 'index' %}">Вернуться на главную страницу</a><br>
+    {% if publication.author == request.user %}
+    <a href="{% url 'post_user_edit' pk=publication.pk %}">Редактировать запись</a><br>
+    <a href="{% url 'post_user_delete' pk=publication.pk %}">Удалить запись</a>
+    {% endif %}
+    {% if user.is_authenticated %}
+        {% if user != publication.author and not rating_exist%}
+        <form action="" method="post">
+                {% csrf_token %}
+                {{ rating_form.as_p }}
+                <p><input type="submit" value="Добавить оценку"></p>
+            </form>
+        {% endif %}
+        {% with comments.count as total_comments %}
+            <h4>Количество комментариев для данной публикации: {{ total_comments }}</h4>
+        {% endwith %}
+        {% for comment in comments %}
+            Автор комменатрия: {{ comment.author }}<br>
+            Содержимое: {{ comment.text|linebreaks }} <br>
+            Дата создания: {{ comment.created_date }}
+        {% empty %}
+            <p>Комментариев пока нет.<p>
+        {% endfor %}
+        {% if new_comment %}
+            <h2>Ваш комментарий был добавлен.</h2>
+        {% else %}
+            {% if user != publication.author %}
+            <h4>Добавить новый комментарий</h4>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <p><input type="submit" value="Добавить"></p>
+            </form>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</body>
+</html>

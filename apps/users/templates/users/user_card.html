@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Карточка пользователя</title>
+</head>
+<body>
+    <h3>Карточка пользователя:</h3>
+    <h4>{{ user.email }}</h4>
+    {% if user.avatar %}
+        <img src="{{MEDIA_URL}}{{user.avatar.url}}" alt="connect" style="max-height:200px">
+    {% endif %}
+    <li>Имя: {{ user.first_name }}</li>
+    <li>Фамилия: {{ user.last_name }}</li>
+    <li>Email: {{ user.email }}</li>
+    <li>Телефон: {{ user.phone }}</li>
+    <li>Skype: {{ user.skype }}</li>
+    <h3>Публикации пользователя {{ user }}</h3>
+    {% if  publication %}
+        {% for post in publication %}
+            <li><a href="{% url 'post_user_detail' pk=post.pk %}">{{ post }}</a><br>
+                Дата публикации: {{ post.publication_date }}<br>
+                Короткое описание: {{ post.short_description }}
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>У пользователя пока нет публикаций.</p>
+    {% endif %}
+</body>
+</html>

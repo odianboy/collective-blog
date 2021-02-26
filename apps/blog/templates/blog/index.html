@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Коллективный блог</title>
+</head>
+<body>
+    <h1>Привет мир!</h1>
+    {% if request.user.is_authenticated %}
+    <h3>Добро пожаловать на сайт {{ request.user.username }}!</h3>
+        <form action="{% url 'index' %}">
+            <p>Поиск публикаций: <input type="search" name="search"> </p>
+        </form><br>
+    <a href="{% url 'dashboard' %}"> Личный кабинет</a><br>
+    <a href="{% url 'account_logout' %}">Выйти</a><br>
+    <a href="{% url 'post_user_new' %}">Создать новую публикацию</a><br>
+    <a href="{% url 'users_list' %}">Список всех пользователей</a>
+
+    <h4>Список категорий постов:</h4>
+    {% for category in categories %}
+        <li><a href="{% url 'category' pk=category.pk %}"> {{ category }}</a></li>
+    {% endfor %}
+    {% else %}
+        <p>Вы неавторизованны на нашем сайте.</p>
+        <a href="{% url 'account_login' %}">Войти</a><br>
+        <a href="{% url 'account_signup' %}">Зарегистрироваться</a>
+    {% endif %}
+    <h2>Список публикаций:</h2>
+        <form action="{% url 'index' %}">
+            <label for="by_date">По дате:</label>
+            <select id="by_date" name="by_date" onChange="this.form.submit();">
+                <option value="empty">----</option>
+                <option value="newest">Сначала новые</option>
+                <option value="oldest">Сначала старые</option>
+            </select>
+        </form><br>
+        <form action="{% url 'index' %}">
+            <label for="by_author">По автору:</label>
+            <select id="by_author" name="by_author" onChange="this.form.submit();">
+            <option value="empty">----</option>
+            {% for author in authors %}
+                <option value="{{ author.id }}">{{ author.email }}</option>
+            {% endfor %}
+            </select>
+        </form><br>
+        {% if posts %}
+            {% for post in posts %}
+                <li><a href="{% url 'post_user_detail' pk=post.pk %}">{{ post }}</a><br>
+                    Автор публикации: {{ post.author }}<br>
+                    Дата публикации: {{ post.publication_date }}<br>
+                    Короткое описание: {{ post.short_description }}<br>
+                    Категория:
+                    {% if post.category %}
+                        <a href="{% url 'category' pk=post.category.pk %}">{{ post.category }}</a>
+                    {% else %} Отсутствует {% endif %}
+                </li>
+                <br>
+            {% endfor %}
+        {% endif %}
+
+</body>
+</html>

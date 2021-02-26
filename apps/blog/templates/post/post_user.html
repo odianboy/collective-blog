@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Публикации пользователя</title>
+</head>
+<body>
+    <h3>Публикации пользователя {{ user }}</h3>
+    {% if  publication %}
+        {% for post in publication %}
+            <li><a href="{% url 'post_user_detail' pk=post.pk %}">{{ post }}</a><br>
+                Дата публикации: {{ post.publication_date }}<br>
+                Короткое описание: {{ post.short_description }}
+            </li>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

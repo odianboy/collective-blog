@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category }}</title>
+</head>
+<body>
+    <h3>Посты категории: {{ category }}</h3>
+    {% for post in posts %}
+        <li><a href="{% url 'post_user_detail' pk=post.pk %}">{{ post }}</a></li><br>
+                Автор публикации: {{ post.author }}<br>
+                Дата публикации: {{ post.publication_date }}<br>
+                Короткое описание: {{ post.short_description }}<br>
+    {% empty %}
+            <p>Публикаций данной категории еще нет.<p>
+    {% endfor %}
+</body>
+</html>
